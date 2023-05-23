@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "exercise-tcp-chat"
+version = "0.1.0"
+description = ""
+authors = ["teodc"]
+readme = "README.md"
+packages = [{ include = "exercise_tcp_chat" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+trio = "^0.22.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
