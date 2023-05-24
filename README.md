@@ -1,7 +1,5 @@
 # exercise-tcp-chat
 
----
-
 Install dependencies: `poetry install`
 
 Activate virtual environment: `source .venv/bin/activate`
