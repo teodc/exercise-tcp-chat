@@ -4,7 +4,10 @@ import sys
 import time
 
 # Name of the bot using this client
-testbot_username = sys.argv[1]
+try:
+    testbot_username = sys.argv[1]
+except IndexError:
+    sys.exit("Missing bot name")
 
 # Test messages
 messages = [
@@ -22,14 +25,14 @@ while True:
         # Create a TCP connection to our server
         conn = socket.create_connection(("localhost", 9876))
         conn.settimeout(3)
-        print(conn.recv(4096))
+        print(conn.recv(4096).decode())
 
         # Send our username
         print(f">> Sending name: {testbot_username}")
         conn.sendall(testbot_username.encode() + b"\n")
         time.sleep(1)
         # Catch reply from the server
-        print(conn.recv(4096))
+        print(conn.recv(4096).decode())
 
         # While connection is opened ...
         while True:

@@ -13,7 +13,7 @@ async def connection(stream: trio.abc.Stream, clients: dict[str, Client]) -> Non
     # print(stream)
 
     try:
-        # Create nursery so we can group tasks & share message data between them
+        # Create nursery so we can group async tasks
         async with trio.open_nursery() as nursery:
             # Open channels to share data between the nursery's tasks
             send_channel, receive_channel = trio.open_memory_channel(0)
@@ -63,6 +63,7 @@ async def receiver(stream: trio.abc.Stream, clients: dict[str, Client], username
         print(f">> Received [{message}] from [{username}]")
 
         # Send received messages to all clients via their send channels within a nursery task
+        # TODO: Prevent sending a client's message to itself
         for _, client in clients.items():
             nursery.start_soon(
                 send_message,
@@ -85,7 +86,7 @@ async def startup() -> None:
     clients = {}
 
     async def connection_handler(stream: trio.abc.Stream) -> None:
-        await connection(stream, clients)
+        await connection(stream=stream, clients=clients)
 
     # Listen for incoming TCP connections
     await trio.serve_tcp(connection_handler, 9876)
